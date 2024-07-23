@@ -1,0 +1,69 @@
+spring:
+  datasource:
+    url: jdbc:mysql://waaw-sql.mysql.database.azure.com:3306/waaw_stage?createDatabaseIfNotExist=true&useSSl=true
+    username: waaw
+    password: W@@WGl0b@l
+  mail:
+    userName:
+    password: 
+
+logging:
+  config: classpath:log4j2.yml
+
+#########################################
+#####    Security Configurations    #####
+#########################################
+security:
+  un-auth-url-patterns: /api/*/unAuth/**, /api/unAuth/**, /test/**, /swagger-ui.html, /swagger-ui/**, /v3/api-docs/**, ${application.websockets.connection-endpoint}/**
+  cors-allowed-origins: http://localhost:3000, https://lemon-forest-0becf5d10.2.azurestaticapps.net, https://staging.waaw.ca
+  # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
+  jwt-secret: YjE0OTg3YTEyM2YwY2YyNGJjYmZlYTUwNjJkZDQ0YzYxNmUwNjIyMGVkOTIxNTEyODA1M2I3Yjk0NTU5NmIyNjMwZTJiZTlmNjA0YTAyNGY3MzdjOGNlNzQ4OTQzNTAxYmJiM2VlYmRiZGE1YTM5NjhiNGEyNWE1YzA0YTY1MTI=
+  jwt-default-token-validity-in-seconds: 1800
+  jwt-remember-me-token-validity-in-seconds: 2592000
+
+########################################
+#####    Swagger Configurations    #####
+########################################
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+
+##############################
+#####    Azure Config    #####
+##############################
+azure:
+  sms:
+    end-point: https://waaw-sms.communication.azure.com
+    key-credential: kEjXJz/2DRm7taUTcr9mPWcB3dOb+lyki8bvhyzjRA3Syi0bRDBLt6q67CuGW9C49TZT2vPBpUn3g2nFBsyaoA==
+  blob:
+    payroll-name: stage-payroll
+    payroll-key: sp=racwdli&st=2023-03-31T20:10:24Z&se=2200-04-01T04:10:24Z&sv=2021-12-02&sr=c&sig=wsMpLkgtgFFX0fK8YAsv0tfx%2Fz1Nr2nKom8oYSNll58%3D
+    attendance-name: stage-attendance
+    attendance-key: sp=racwdli&st=2023-03-31T20:09:28Z&se=2200-04-01T04:09:28Z&sv=2021-12-02&sr=c&sig=6hLgI5QISMTrNb8VrrCMxnK1Sgs0Vy5SpvGrQykXZDE%3D
+    holiday-name: stage-holiday
+    holiday-key: sp=racwdli&st=2023-03-31T20:09:55Z&se=2200-04-01T04:09:55Z&sv=2021-12-02&sr=c&sig=GHzpTRv2etf3wvG%2F1Wj80jzuqpbLqzgUADFron5Ye2o%3D
+    pictures-name: stage-pictures
+    pictures-key: sp=racwdli&st=2023-03-31T20:10:58Z&se=2200-04-01T04:10:58Z&sv=2021-12-02&sr=c&sig=o%2FBD4etodtBVw5Xio%2FMPAX1fexxlEhM7Hj19TUdY8LI%3D
+  send-grid:
+    sender-name: WaaW
+    sender-email: customer.service@waaw.ca
+    api-key: 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
+
+#################################################
+#####    Payment properties    #####
+#################################################
+stripe:
+  api-key: sk_test_51IuozbEkZ4NGJcE2m9MpdvSkZbDTFlR2ot3a9vSsQG0QHdwOBKtV9s0pQtKiGN1y3jvMM5ED3dNtVOBxUAMKMxZn00aU9CKJdR
+
+#################################################
+#####    Application specific properties    #####
+#################################################
+application:
+  create-dummy-data-on-startup: true
+  urls:
+    hosted-ui: https://staging.waaw.ca
+    hosted-server: https://staging-api.waaw.ca
+  mail:
+    ui-url: ${application.urls.hosted-ui}

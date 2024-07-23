@@ -1,0 +1,72 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-location
+      author: ${author1}
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: location
+      changes:
+        - createTable:
+            tableName: location
+            columns:
+              - column:
+                  name: uuid
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+              - column:
+                  name: waaw_id
+                  type: VARCHAR(25)
+              - column:
+                  name: organization_id
+                  type: VARCHAR(100)
+              - column:
+                  name: timezone
+                  type: VARCHAR(100)
+              - column:
+                  name: is_active
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: del_flg
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+              - column:
+                  name: last_modified_by
+                  type: VARCHAR(100)
+              - column:
+                  name: last_modified_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+        - addForeignKeyConstraint:
+            baseTableName: location
+            baseColumnNames: organization_id
+            constraintName: fk_location_organization_id
+            referencedColumnNames: uuid
+            referencedTableName: organization
+        - createIndex:
+            indexName: idx_waaw_location_id
+            tableName: location
+            unique: true
+            column:
+              name: waaw_id
+              type: VARCHAR(25)

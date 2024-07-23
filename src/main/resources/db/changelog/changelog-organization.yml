@@ -1,0 +1,116 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-organization
+      author: ${author1}
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: organization
+      changes:
+        - createTable:
+            tableName: organization
+            columns:
+              - column:
+                  name: uuid
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: image_file
+                  type: VARCHAR(500)
+              - column:
+                  name: start_of_week
+                  type: VARCHAR(20)
+                  defaultValue: 'MONDAY'
+              - column:
+                  name: payroll_generation_frequency
+                  type: VARCHAR(50)
+              - column:
+                  name: days_before_shifts_assigned
+                  type: SMALLINT
+                  defaultValue: 4
+              - column:
+                  name: clock_in_allowed_minutes_before_shift
+                  type: SMALLINT
+                  defaultValue: 5
+              - column:
+                  name: is_timeclock_enabled
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_timeoff_enabled
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_overtime_enabled
+                  type: BOOLEAN
+                  defaultValue: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: next_payment_on
+                  type: TIMESTAMP
+              - column:
+                  name: trial_end_date
+                  type: TIMESTAMP
+              - column:
+                  name: platform_fee_paid
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_pending
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: waaw_custom_id
+                  type: VARCHAR(25)
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: ux_waaw_organization_id
+              - column:
+                  name: timezone
+                  type: VARCHAR(100)
+              - column:
+                  name: del_flg
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+              - column:
+                  name: last_modified_by
+                  type: VARCHAR(100)
+              - column:
+                  name: last_modified_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+        - createIndex:
+            indexName: idx_waaw_organization_id
+            tableName: organization
+            unique: true
+            column:
+              name: waaw_custom_id
+              type: VARCHAR(25)

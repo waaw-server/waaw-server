@@ -1,0 +1,44 @@
+databaseChangeLog:
+  # Defined common properties to be used in all the changelogs
+  - property:
+      name: author1
+      value: Akhil Singh Chauhan
+  # Files to be included
+  - include:
+      file: db/changelog/changelog-subscription_list.yml
+  - include:
+      file: db/changelog/changelog-organization.yml
+  - include:
+      file: db/changelog/changelog-location.yml
+  - include:
+      file: db/changelog/changelog-location_role.yml
+  - include:
+      file: db/changelog/changelog-user.yml
+  - include:
+      file: db/changelog/changelog-notification.yml
+  - include:
+      file: db/changelog/changelog-shifts_batch.yml
+  - include:
+      file: db/changelog/changelog-shifts.yml
+  - include:
+      file: db/changelog/changelog-shifts_batch_mapping.yml
+  - include:
+      file: db/changelog/changelog-organization_holidays.yml
+  - include:
+      file: db/changelog/changelog-employee_preference.yml
+  - include:
+      file: db/changelog/changelog-promotion_codes.yml
+  - include:
+      file: db/changelog/changelog-user_tokens.yml
+  - include:
+      file: db/changelog/changelog-time_sheets.yml
+  - include:
+      file: db/changelog/changelog-reports.yml
+  - include:
+      file: db/changelog/changelog-requests.yml
+  - include:
+      file: db/changelog/changelog-requests_history.yml
+  - include:
+      file: db/changelog/changelog-invoices.yml
+  - include:
+      file: db/changelog/changelog-shifts_structure_update.yml

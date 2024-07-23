@@ -1,0 +1,94 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-shifts_batch
+      author: ${author1}
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: shifts_batch
+      changes:
+        - createTable:
+            tableName: shifts_batch
+            columns:
+              - column:
+                  name: uuid
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: waaw_id
+                  type: VARCHAR(100)
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: ux_batch_waaw_id
+              - column:
+                  name: name
+                  type: VARCHAR(50)
+              - column:
+                  name: organization_id
+                  type: VARCHAR(100)
+              - column:
+                  name: location_id
+                  type: VARCHAR(100)
+              - column:
+                  name: start_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(100)
+              - column:
+                  name: is_released
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: del_flg
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+              - column:
+                  name: last_modified_by
+                  type: VARCHAR(100)
+              - column:
+                  name: last_modified_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+        - addForeignKeyConstraint:
+            baseTableName: shifts_batch
+            baseColumnNames: organization_id
+            constraintName: fk_shifts_batch_organization_id
+            referencedColumnNames: uuid
+            referencedTableName: organization
+        - addForeignKeyConstraint:
+            baseTableName: shifts_batch
+            baseColumnNames: location_id
+            constraintName: fk_shifts_batch_location_id
+            referencedColumnNames: uuid
+            referencedTableName: location
+        - createIndex:
+            indexName: idx_batch_waaw_id
+            tableName: shifts_batch
+            unique: true
+            column:
+              name: waaw_id
+              type: VARCHAR(100)

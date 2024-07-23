@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-time_sheets
+      author: ${author1}
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: time_sheets
+      changes:
+        - createTable:
+            tableName: time_sheets
+            columns:
+              - column:
+                  name: uuid
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: VARCHAR(100)
+              - column:
+                  name: organization_id
+                  type: VARCHAR(100)
+              - column:
+                  name: location_id
+                  type: VARCHAR(100)
+              - column:
+                  name: location_role_id
+                  type: VARCHAR(100)
+              - column:
+                  name: shift_id
+                  type: VARCHAR(100)
+              - column:
+                  name: start
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end
+                  type: TIMESTAMP
+              - column:
+                  name: type
+                  type: VARCHAR(50)
+              - column:
+                  name: comment
+                  type: VARCHAR(5000)
+              - column:
+                  name: del_flg
+                  type: BOOLEAN
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+              - column:
+                  name: last_modified_by
+                  type: VARCHAR(100)
+              - column:
+                  name: last_modified_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+        - addForeignKeyConstraint:
+            baseTableName: time_sheets
+            baseColumnNames: user_id
+            constraintName: fk_timesheet_user_id
+            referencedColumnNames: uuid
+            referencedTableName: user
+        - addForeignKeyConstraint:
+            baseTableName: time_sheets
+            baseColumnNames: organization_id
+            constraintName: fk_timesheet_organization_id
+            referencedColumnNames: uuid
+            referencedTableName: organization
+        - addForeignKeyConstraint:
+            baseTableName: time_sheets
+            baseColumnNames: location_id
+            constraintName: fk_timesheet_location_id
+            referencedColumnNames: uuid
+            referencedTableName: location
+        - addForeignKeyConstraint:
+            baseTableName: time_sheets
+            baseColumnNames: location_role_id
+            constraintName: fk_timesheet_location_role_id
+            referencedColumnNames: uuid
+            referencedTableName: location_role
+        - addForeignKeyConstraint:
+            baseTableName: time_sheets
+            baseColumnNames: shift_id
+            constraintName: fk_timesheet_shift_id
+            referencedColumnNames: uuid
+            referencedTableName: shifts

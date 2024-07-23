@@ -1,0 +1,118 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-invoices
+      author: ${author1}
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: invoices
+      changes:
+        - createTable:
+            tableName: invoices
+            columns:
+              - column:
+                  name: uuid
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: waaw_id
+                  type: VARCHAR(25)
+              - column:
+                  name: stripe_id
+                  type: VARCHAR(100)
+              - column:
+                  name: organization_id
+                  type: VARCHAR(100)
+              - column:
+                  name: quantity
+                  type: SMALLINT
+              - column:
+                  name: unit_price
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: transaction_type
+                  type: VARCHAR(50)
+              - column:
+                  name: total_amount
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: currency
+                  type: VARCHAR(10)
+              - column:
+                  name: invoice_date
+                  type: TIMESTAMP
+                  defaultValueDate: now()
+              - column:
+                  name: invoice_start
+                  type: TIMESTAMP
+              - column:
+                  name: invoice_end
+                  type: TIMESTAMP
+              - column:
+                  name: invoice_status
+                  type: VARCHAR(50)
+              - column:
+                  name: due_date
+                  type: TIMESTAMP
+              - column:
+                  name: payment_date
+                  type: TIMESTAMP
+              - column:
+                  name: invoice_url
+                  type: VARCHAR(1000)
+        - addForeignKeyConstraint:
+            baseTableName: invoices
+            baseColumnNames: organization_id
+            constraintName: fk_invoices_organization_id
+            referencedColumnNames: uuid
+            referencedTableName: organization
+        - createIndex:
+            indexName: idx_waaw_invoice_id
+            tableName: invoices
+            unique: true
+            column:
+              name: waaw_id
+              type: VARCHAR(25)
+  - changeSet:
+      id: add_column_transaction_id
+      author: ${author1}
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            columnExists:
+              tableName: invoices
+              columnName: transaction_id
+      changes:
+        - addColumn:
+            tableName: invoices
+            columns:
+              - column:
+                  name: transaction_id
+                  type: VARCHAR(25)
+                  afterColumn: waaw_id
+        - renameColumn:
+            columnDataType: VARCHAR(25)
+            newColumnName: invoice_id
+            oldColumnName: waaw_id
+            tableName: invoices
+        - renameColumn:
+            columnDataType: VARCHAR(50)
+            newColumnName: payment_status
+            oldColumnName: invoice_status
+            tableName: invoices
+        - dropIndex:
+            indexName:  idx_waaw_invoice_id
+            tableName:  invoices
+        - createIndex:
+            indexName: idx_waaw_transaction_id
+            tableName: invoices
+            unique: true
+            column:
+              name: transaction_id
+              type: VARCHAR(25)
+        - renameTable:
+            newTableName: payment_history
+            oldTableName: invoices

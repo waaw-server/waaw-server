@@ -1,0 +1,175 @@
+spring:
+  profiles:
+    active:
+    default: dev
+  application:
+    name: ^project.name^
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  config:
+    import: classpath:api-info/swagger.yml, classpath:api-info/regex.yml, classpath:api-info/endpoints.yml, classpath:api-info/description.yml
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          time_zone: UTC
+    show-sql: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yml
+  messages:
+    basename: i18n/messages
+  thymeleaf:
+    enabled: true
+    check-template: true
+    check-template-location: true
+    cache: false
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
+
+server:
+  port: 8080
+  error:
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+
+logging:
+  level:
+    liquibase: info
+
+springdoc:
+  packagesToScan: ca.waaw.web.rest
+  swagger-ui:
+    operationsSorter: alpha
+    tagsSorter: alpha
+
+##############################
+#####    Azure Config    #####
+##############################
+azure:
+  blob:
+    account-name: waawst0rage
+    common-container-name: common-resources
+    common-container-key: sp=racwdli&st=2023-04-06T12:49:15Z&se=2200-04-06T20:49:15Z&sv=2021-12-02&sr=c&sig=gFl%2FnZ%2FNMzIATMtY1saxSCaFJjTuMB7cQPGiX5syhsA%3D
+
+#################################################
+#####    Application specific properties    #####
+#################################################
+application:
+  title: ^project.name^
+  version: ^project.version^
+  validations:
+    regex:
+      # Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
+      password: ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$
+      # Username consists of alphanumeric characters (a-zA-Z0-9), lowercase or uppercase.
+      # Username allowed of the dot (.), underscore (_), and hyphen (-).
+      # The dot (.), underscore (_), or hyphen (-) must not be the first or last character.
+      # The dot (.), underscore (_), or hyphen (-) does not appear consecutively, e.g., java..regex
+      # The number of characters must be between 5 and 20.
+      username: ^[a-zA-Z0-9]([._-](?![._-])|[a-zA-Z0-9]){3,18}[a-zA-Z0-9]$
+      email: ^[\w-\+]+(\.[\w]+)*@[\w-]+(\.[\w]+)*(\.[a-zA-Z]{2,})$
+      date: ^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$
+  urls:
+    activate-account: /account/verify-email?key=
+    invite-user: /account/accept-invite?key=
+    resetPassword: /account/reset-password-finish?key=
+    updateEmail: /account/update-email-verify?key=
+    login: /login
+  validity:
+    activation-link: 1
+    password-reset: 1
+    user-invite: 1
+    email-update: 1
+  #Admin and support email info
+  mail:
+    twitter-url: https://twitter.com/waaw
+    linkedin-url: https://www.linkedin.com/company/waaw
+    admin-email: akhil@pragra.io
+    sender-email: akhil@pragra.io
+    sender-name: WaaW
+  super-user:
+    first-name: Super
+    last-name: User
+    email: superuser@localhost.ca
+    username: waaw2020
+    password: Waaw@2020
+    organization: WAAW
+    timezone: Canada/Eastern
+  triggers:
+    location: classpath:db/sqltriggers/
+  websockets:
+    connection-endpoint: /ws-connect
+    simple-broker: /ws-server
+    application-destination-prefix: /ws
+    allowed-origins: ${security.cors-allowed-origins}
+    notification-url: ${application.websockets.simple-broker}/notification
+    shift-url: ${application.websockets.simple-broker}/shift
+    timesheet-url: ${application.websockets.simple-broker}/timesheet
+    user-invite-url: ${application.websockets.simple-broker}/user-invite
+    holiday-upload-url: ${application.websockets.simple-broker}/holiday-upload
+    update-user-detail-url: ${application.websockets.simple-broker}/update-user-detail
+  async:
+    thread-name-prefix: AsyncThread-
+    core-pool-size: 40
+    max-pool-size: 80
+    queue-capacity: 200
+  custom-id:
+    length: 10
+    user-prefix: U
+    organization-prefix: O
+    location-prefix: L
+    role-prefix: R
+    request-prefix: Q
+    shift-prefix: S
+    report-prefix: P
+    invoice-prefix: I
+    transaction-prefix: T
+  invoices:
+    allowDaysBeforeDueDate: 5
+
+######################################
+###### Files related properties ######
+######################################
+files:
+  formats-allowed:
+    excel: xls,xlsx
+    csv: csv
+  required-fields:
+    holidays: name, year, month, date, holiday_type
+    invite-users: email, location, location_role, first_name, last_name, is_full_time
+  pojo-templates:
+    holidays:
+      name: name
+      year: year
+      month: month
+      date: date
+      holiday_type: type
+    invite-users:
+      email: email
+      location: locationId
+      location_role: locationRoleId
+      first_name: firstName
+      last_name: lastName
+      employee_id: employeeId
+      is_full_time: isFullTime
