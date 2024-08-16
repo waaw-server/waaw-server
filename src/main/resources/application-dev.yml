@@ -2,8 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/waaw_dev?createDatabaseIfNotExist=true
     username: root
-    password: root
-    #password: Ss@22743295
+    password: Ss@22743295
     #password: Pragra2020
   mail:
     userName: customer.service@waaw.ca
