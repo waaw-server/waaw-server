@@ -3,6 +3,7 @@ package ca.waaw.mapper;
 import ca.waaw.domain.organization.OrganizationHolidays;
 import ca.waaw.dto.holiday.HolidayDto;
 import ca.waaw.enumration.HolidayType;
+import ca.waaw.enumration.IsStatPay;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -17,6 +18,7 @@ public class OrganizationHolidayMapper {
         BeanUtils.copyProperties(source, target);
         if (StringUtils.isEmpty(target.getLocationId())) target.setLocationId(null);
         target.setType(HolidayType.valueOf(source.getType()));
+        target.setIsStatPay(IsStatPay.valueOf(source.getIsStatPay()));
         return target;
     }
 

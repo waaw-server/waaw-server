@@ -2,6 +2,7 @@ package ca.waaw.domain.organization;
 
 import ca.waaw.domain.AbstractEntity;
 import ca.waaw.enumration.HolidayType;
+import ca.waaw.enumration.IsStatPay;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -34,6 +35,10 @@ public class OrganizationHolidays extends AbstractEntity {
 
     @Enumerated(EnumType.STRING)
     private HolidayType type;
+
+    @Enumerated(EnumType.STRING)
+    private IsStatPay isStatPay;
+
 
     @Column
     private Integer year;
