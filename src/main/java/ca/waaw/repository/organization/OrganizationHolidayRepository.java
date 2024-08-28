@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface OrganizationHolidayRepository extends JpaRepository<OrganizationHolidays, String> {
+    public interface OrganizationHolidayRepository extends JpaRepository<OrganizationHolidays, String> {
 
     Optional<OrganizationHolidays> findOneByIdAndDeleteFlag(String id, boolean deleteFlag);
 
