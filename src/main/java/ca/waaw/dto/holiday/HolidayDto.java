@@ -1,6 +1,7 @@
 package ca.waaw.dto.holiday;
 
 import ca.waaw.enumration.HolidayType;
+import ca.waaw.enumration.IsStatPay;
 import ca.waaw.web.rest.utils.customannotations.ValueOfEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,11 @@ public class HolidayDto {
     @Schema(allowableValues = {"NATIONAL_HOLIDAY", "ORGANIZATION_HOLIDAY"})
     @ValueOfEnum(enumClass = HolidayType.class)
     private String type;
+
+    @Schema(allowableValues = {"YES", "NO"})
+    @ValueOfEnum(enumClass = IsStatPay.class)
+    private String isStatPay;
+
 
     @Min(value = 2021, message = "Year cannot be before 2021")
     private int year;

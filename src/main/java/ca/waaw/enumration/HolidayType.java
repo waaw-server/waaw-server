@@ -4,3 +4,4 @@ package ca.waaw.enumration;
 public enum HolidayType {
     NATIONAL_HOLIDAY, ORGANIZATION_HOLIDAY
 }
+
